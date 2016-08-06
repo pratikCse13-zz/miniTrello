@@ -3,6 +3,7 @@ var route = require('./routes/route');
 var path = require('path');
 
 var app = express();
+var port = Number(process.env.PORT || 81);
 
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
@@ -78,7 +79,7 @@ io.on('connection',function(socket){
 
 });
 
-server.listen(81,function(){
+server.listen(port,function(){
 	console.log("server is listening on 81");
 });
 
