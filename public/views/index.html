@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>IO chat</title>
+
+	<!-- BootStrap CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  
+    <!-- Bootstrap CDN 2 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"> 
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- socket.io CDN 
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>-->
+
+    <!-- Jquery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+    <!-- jqUERY FILE -->
+    <script src="/javascript/jq.js"></script>
+
+    <!-- PDF.js -->
+    <script src="/javascript/pdf.js"></script>
+    
+    <!-- Bootstrap JS CDN -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <!-- AngularJs CDN -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+    <!-- angular js file -->
+    <script src="/javascript/angularApp.js"></script>
+
+    <!-- socket -->
+    <script src="/javascript/socket.js"></script>
+   
+</head>
+<body style="margin-top: 50px; overflow: hidden" ng-app="app" id="body" ng-controller="appCtrl">
+
+	<div class="container">
+		<div class="row">
+
+			<!-- profile div -->
+			<div class="col-md-2">
+				<div class="well">
+					<h4 style="padding: 0px; margin: 0px;"><b>Hi</b></h4>
+					<h2 style="color: #3B5998; padding: 0px; margin: 0px"><b>{{username}}</b></h2>
+					<ol style="font-size: 10px; padding: 5px; margin-top: 15px; width: 100%">
+						<li> Welcome!! You are currently online</li>
+						<li> To chat with a user click on his link from the online users list</li>
+						<li> You can chat with another user without being shown offline to the former</li>
+						<li> You can also send pictures and documents(PDF only)</li>
+					</ol>
+				</div>
+			</div>
+
+			<!-- hat list div -->
+			<div class="col-md-6" style="">
+				
+				<!-- chat messages area -->
+				<div class="well" style="overflow: scroll; width: 100%; padding: 0px; height: 500px; background-color: white; margin-top: 0px" id="chatWell">
+					<label class="popUpActivator" style="z-index: 90;  position: fixed; top: 50px; left: 308px; background-color: #3B5998; width: 555px; line-height: 50px; color: white; height: 50px; font-size: 25px; text-align: center;">
+							{{chatWith.username}}
+					</label>
+					<ul style="display: block; margin-top: 50px;" class="list-group" id="chatList">
+					<!--
+						<li style="height: 30px;line-height: 10px; padding: 10px; margin: 10px;" class="list-group-item" ng-repeat="message in messages[chatWith.username]">
+							<span><b style="color:#3B5998">{{message.author}}:</b> {{message.message}}</span>
+						</li>
+					-->
+					</ul>
+				</div>
+
+				<!-- chat reply form -->
+				<form role="form-inline" style="background-color: #F6F7F9; height: 50px">
+					<textarea style="width: 50%; height: 30px; margin: 10px; text-align: left; padding-left: 10px" placeholder="enter your reply.." ng-model="msg" ng-disabled="interact"></textarea>
+  					<span id="pdfActivator" style="width: 5%; height: 40px;margin-left: 10px; position: relative; top: -20px" class="glyphicon glyphicon-file" aria-hidden="true" ng-disabled="interact"></span>
+  					<span id="imageActivator" style="width: 5%; height: 40px;margin: 0px; position: relative; top: -20px" class="glyphicon glyphicon-picture" aria-hidden="true" ng-disabled="interact"></span>
+					<button style="width: 15%; height: 30px; line-height: 15px; margin: 5px; position: relative; top: -20px" class="btn btn-default btn-success" ng-click="sendMessage()" ng-disabled="interact" id="sendMessage">Send</button>										
+					<input style="display: none; width: 1px" type="file" id="pdfUpload" accept=".pdf" ng-disabled="interact"></input>
+					<input style="display: none; width: 1px" type="file" id="imageUpload" accept=".png,.jpeg,.gif,.jpg" ng-disabled="interact"></input>
+				</form>
+			</div>
+
+			<!-- online users div -->
+			<div class="col-md-3" style="">
+				<div class="well" style="width: 100%; overflow: scroll; padding: 0px; height: 580px; align-content: center">
+					<label style="z-index: 50; background-color: #3B5998; line-height: 50px; position: fixed; top: 50px; left: 893px; display: block; font-size: 15px; text-align: center; color: white; height: 50px; width: 264px; text-align: center; margin: 0px">
+							<b>Online Users</b>
+					</label>
+					<ul style="width: 100%; margin-top: 60px; align-content: center;" id="userList" class="list-group">
+						<li class="list-group-item" style="margin: 10px; padding: 5px; padding-left: 10px; height: 40px; width: 95%" ng-repeat="(key,user) in users" ng-click="changeReceiver(user)">
+							<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+							<span style="color: #3B5998; margin-left: 5px; line-height: 40px"><b>{{user.username}}</b></span>
+							<span class="badge" ng-show="badgeCounter[user.username]">{{badgeCounter[user.username]}}</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- login modal -->
+	<div class="modal fade" id="modal" ng-show="showModal" data-keyboard="false" data-backdrop="static">	
+		<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div>
+					<form role="form" name="form">
+					<h3 style="padding: 10px"><b>Chatting made this easy !!</b></h3>
+					<input style="margin: 10px; height: 50px; width: 90%; line-height: 50px; padding: 10px; border-radius: 3px; border: 2px solid #EAEAEA" class="form-control" type="text" placeholder="username" ng-model="username" ng-required="true"><br>
+					<div class="alert alert-danger" role="alert" ng-show="showError">{{error}}</div>
+					<button style="margin: 10px; height: 50px; width: 90%; line-height: 10px; padding: 10px; border-radius: 3px;" class="btn btn-success btn-default btn-lg" id="loginButton" ng-disabled="form.$invalid" ng-click="login()"><b>Lets Start</b></button>
+					</form>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+
+	<!-- document preview modal -->
+	<div class="modal" id="popUp">
+		<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body" id="previewHere">
+					<!--<img style="width: 70px; height: 110px" ng-src="{{popUpLink}}"></img>-->
+			</div>
+		</div>	
+		</div>
+	</div>
+
+	
+</body>
+</html>
