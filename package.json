@@ -15,5 +15,6 @@
   },
   "engines": {
     "node": "4.4.0"
-  }
+  },
+  "scripts":{"postinstall": "./node_modules/bower/bin/bower install"}
 }
