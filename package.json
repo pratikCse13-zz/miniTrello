@@ -4,17 +4,16 @@
   "description": "chat app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "postinstall": "./node_modules/bower/bin/bower install"
   },
   "author": "pratik",
   "license": "ISC",
   "dependencies": {
+    "bower": "^1.7.9",
     "express": "^4.14.0",
     "socket.io": "^1.4.8"
   },
   "engines": {
     "node": "4.4.0"
-  },
-  "scripts":{"postinstall": "./node_modules/bower/bin/bower install"}
+  }
 }
