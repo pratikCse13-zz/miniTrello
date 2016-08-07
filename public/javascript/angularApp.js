@@ -1,6 +1,6 @@
 var app = angular.module('app',[]);
 
-app.controller('appCtrl',function($scope,$http,$window){
+app.controller('appCtrl',["$scope","$http","$window",function($scope,$http,$window){
 
 	
 	$scope.showModal=true;          //toggles display of login modal
@@ -226,4 +226,4 @@ app.controller('appCtrl',function($scope,$http,$window){
 
 	
 	
-});
+}]);
