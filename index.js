@@ -81,7 +81,7 @@ io.on('connection',function(socket){
 
 });
 
-server.listen(process.env.PORT,function(){
+server.listen(Number(process.env.PORT||81),function(){
 	console.log("server is listening on 81");
 });
 
