@@ -6,7 +6,13 @@ var app = express();
 
 
 var server = require('http').Server(app);
-var io = require('socket.io')(server);
+var io = require('socket.io')(server
+
+io.configure(function () {
+	io.set("transports", ["xhr-polling"]);
+	io.set("polling duration", 10);
+	io.set("log level", 1);
+});
 
 app.use(express.static(path.join(__dirname,'/public')));
 app.use('/',route);
