@@ -14,6 +14,7 @@
  */
 /* jshint globalstrict: false */
 /* umdutils ignore */
+$(document).ready( function(){
 
 (function (root, factory) {
   'use strict';
@@ -10373,3 +10374,4 @@ exports.PDFPageProxy = PDFPageProxy;
 }));
 
 
+});
