@@ -6,7 +6,7 @@ var app = express();
 
 
 var server = require('http').Server(app);
-var io = require('socket.io')(server
+var io = require('socket.io')(server);
 
 io.configure(function () {
 	io.set("transports", ["xhr-polling"]);
