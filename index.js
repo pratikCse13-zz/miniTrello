@@ -11,7 +11,7 @@ app.use('/',route);
 
 
 app.listen(Number(process.env.PORT||8000),function(){
-	console.log("server is listening on 81");
+	console.log("server is listening on 8000");
 });
 
 module.exports = app;

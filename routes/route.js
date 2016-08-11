@@ -42,7 +42,7 @@ router.post('/saveBoard',function(req,res){
 				res.json(board);
 			}
 			else
-				console.log(error);
+				console.log(err);
 	});	
 });
 
