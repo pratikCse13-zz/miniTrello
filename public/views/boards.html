@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<!-- viewport -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- BootStrap CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  
+    <!-- Bootstrap CDN 2 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <!-- Jquery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+    <!-- AngularJs CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    
+    <!-- Bootstrap JS CDN -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <!-- angular js file -->
+    <script src="/javascript/angularApp.js"></script>
+
+    <style>
+
+
+		header {
+			background: #0067A3;
+			height: 50px;
+		}
+
+    	#boards {
+			padding: 10px; 
+			margin-top: 5px;
+			border-radius: 5px;
+			margin-bottom: 5px; 
+			background: #0067A3; 
+			height: 100px;
+			text-align: center; 
+			line-height: 80px; 
+			font-size: 20px;
+			color: white;
+		}
+
+		#boards:hover {
+			background: #3B5998;
+		}
+
+
+
+		#addBoard {
+			padding: 10px; 
+			margin-top: 5px;
+			background: #DEDFE0;
+			border-radius: 5px;
+			margin-bottom: 5px;  
+			height: 100px;
+			text-align: center; 
+			line-height: 80px; 
+			font-size: 40px;
+		}
+
+		#addBoard:hover {
+			background: #B8B9BC;
+		}
+
+		.cross {
+			color: #E9EBEE;
+		}
+
+		.cross:hover {
+			color: black;
+		}
+
+		#lists {
+			padding: 10px; 
+			margin-top: 5px;
+			border-radius: 5px;
+			margin-bottom: 5px;   
+			background: #E9EBEE;
+			min-height: 400px;
+			overflow: hidden;
+		}
+
+		#addList {
+			padding: 10px; 
+			margin-top: 5px;
+			background: #DEDFE0;
+			border-radius: 5px;
+			margin-bottom: 5px;  
+			height: 50px;
+		}
+
+		#addList:hover {
+			background: #B8B9BC;
+		}
+
+    </style>
+</head>
+<body ng-app="app" ng-controller="boardCtrl">
+	<!-- navigation bar -->
+	<header class="container-fluid">
+		<div class="navbar">
+			<div class="navbar navbar-left">
+				
+			</div>
+			<div class="navbar bavbar-right">
+			
+			</div>
+		</div>
+	</header>
+
+	<!-- boards -->
+	<div class="container" style="margin-top: 50px">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="well" id="boards">
+					{{variable}}
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="well" id="boards">
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="well" id="boards">
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="well" id="boards">
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="well" id="addBoard" style="" data-toggle="modal" data-target="#addBoardModal">
+				+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ADD BOARD MODAL -->
+	<div class="modal fade" id="addBoardModal">
+		<div class="modal-dialog" style="width: 20%">
+			<div class="modal-content" style="">
+				<div class="modal-header">
+				<button class="close" data-dismiss="modal">&times;</button>
+				<h4>Enter board name</h4>
+				</div>
+				<div class="modal-body">
+					<form role="form" name="form">
+						<input type="text" style="margin: 10%; padding: 10%; width: 80%; height: 30px; clear: both" ng-model="newBoard" ng-required></input>
+						<button class="btn btn-success btn-md" style="margin: 10%; padding: 15px; line-height: 10px; width: 80%; height: 40px; clear: both" ng-click="addnewBoard()" ng-disabled="form.$invalid">Add Board</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container" style="margin-top: 50px">
+		<div class="row">
+			<!-- LIST -->
+			<div class="col-md-3"> 
+				<div class="well" id="lists" style="padding: 0px; overflow: auto; min-height: 90px; max-height: 400px">
+
+					<!-- LIST NAME -->
+					<div style="margin: 0px; padding: 10px; background: #C1CDCD; height: 35px; line-height: 15px; text-align: center; color: black">
+						<b></b>
+					</div>
+
+					<!-- CARD HOLDER -->
+					<div id="cardHolder" style="overflow: scroll; overflow-x: hidden; min-height: 80px; max-height: 310px">
+						
+						<!-- card -->
+						<div class="well" draggable="true" style="background: white; padding: 5px; margin: 5px; border-radius: 5px; word-wrap: break-word;">
+						dasdasdasdasdasdadadadsadasdasdasdasdasdasdasdasd
+						</div>
+
+						<!-- card -->
+						<div class="well" style="background: white; padding: 5px; margin: 5px; border-radius: 5px; word-wrap: break-word;">
+							<span class="glyphicon glyphicon-remove cross" aria-hidden="true" style="float: right"></span>
+						I am the he man i will kil your son for sex dasdadadasdasdas dasdasdas
+						</div>
+						
+						
+						<!-- NEW CARD FORM -->
+						<form style="background-color: #DEDFE0; height: 50px">
+							<div class="well" style="background: white; padding: 0px; margin: 5px;">
+								<input type="text" style="border: 0px; min-height: 30px; width: 100%">
+							</div>
+							<button style="width: 30%; height: 30px; padding: 5px;  margin: 5px;" class="btn btn-default btn-success" ng-click="adCard()" ng-disabled="" id=""><span style="line-height: 20px">Add Card</span>
+							</button>										
+						</form>
+
+					</div>			
+				</div>				
+			</div>
+
+			<!-- LIST -->
+			<div class="col-md-3"> 
+				<div class="well" id="lists" style="padding: 0px; overflow: auto; min-height: 90px; max-height: 400px">
+
+					<!-- LIST NAME -->
+					<div style="margin: 0px; padding: 10px; background: #C1CDCD; height: 35px; line-height: 15px; text-align: center; color: black">
+						<b></b>
+					</div>
+
+					<!-- CARD HOLDER -->
+					<div id="cardHolder" style="overflow: scroll; overflow-x: hidden; min-height: 80px; max-height: 310px">
+						
+						<!-- card -->
+						<div class="well" style="background: white; padding: 5px; margin: 5px; border-radius: 5px; word-wrap: break-word;">
+							<span class="glyphicon glyphicon-remove cross" aria-hidden="true" style="float: right"></span>
+						I am the he man i will kil your son for sex dasdadadasdasdas dasdasdas
+						</div>
+						<!-- card -->
+						<div class="well" style="background: white; padding: 5px; margin: 5px; border-radius: 5px; word-wrap: break-word;">
+							<span class="glyphicon glyphicon-remove cross" aria-hidden="true" style="float: right"></span>
+						I am the he man i will kil your son for sex dasdadadasdasdas dasdasdas
+						</div>
+						<!-- card -->
+						<div class="well" style="background: white; padding: 5px; margin: 5px; border-radius: 5px; word-wrap: break-word;">
+							<span class="glyphicon glyphicon-remove cross" aria-hidden="true" style="float: right"></span>
+						I am the he man i will kil your son for sex dasdadadasdasdas dasdasdas
+						</div>
+						
+						
+						<!-- NEW CARD FORM -->
+						<form style="background-color: #DEDFE0; height: 50px">
+							<div class="well" style="background: white; padding: 0px; margin: 5px;">
+								<input type="text" style="border: 0px; min-height: 30px; width: 100%">
+							</div>
+							<button style="width: 30%; height: 30px; padding: 5px;  margin: 5px;" class="btn btn-default btn-success" ng-click="adCard()" ng-disabled="" id=""><span style="line-height: 20px">Add Card</span>
+							</button>										
+						</form>
+						
+					</div>			
+				</div>				
+			</div>
+
+			<!-- LIST -->
+			<div class="col-md-3"> 
+				<div class="well" id="lists" style="padding: 0px; overflow: auto; min-height: 90px; max-height: 400px">
+
+					<!-- LIST NAME -->
+					<div style="margin: 0px; padding: 10px; background: #C1CDCD; height: 35px; line-height: 15px; text-align: center; color: black">
+						<b></b>
+					</div>
+
+					<!-- CARD HOLDER -->
+					<div id="cardHolder" style="overflow: scroll; overflow-x: hidden; min-height: 80px; max-height: 310px">
+						
+						<!-- card -->
+						<div class="well" style="background: white; padding: 5px; margin: 5px; border-radius: 5px; word-wrap: break-word;">
+							<span class="glyphicon glyphicon-remove cross" aria-hidden="true" style="float: right"></span>
+						I am the he man i will kil your son for sex dasdadadasdasdas dasdasdas
+						</div>
+						<!-- card -->
+						<div class="well" style="background: white; padding: 5px; margin: 5px; border-radius: 5px; word-wrap: break-word;">
+							<span class="glyphicon glyphicon-remove cross" aria-hidden="true" style="float: right"></span>
+						I am the he man i will kil your son for sex dasdadadasdasdas dasdasdas
+						</div>
+						<!-- card -->
+						<div class="well" style="background: white; padding: 5px; margin: 5px; border-radius: 5px; word-wrap: break-word;">
+							<span class="glyphicon glyphicon-remove cross" aria-hidden="true" style="float: right"></span>
+						I am the he man i will kil your son for sex dasdadadasdasdas dasdasdas
+						</div>
+						
+						
+						<!-- NEW CARD FORM -->
+						<form style="background-color: #DEDFE0; height: 50px">
+							<div class="well" style="background: white; padding: 0px; margin: 5px;">
+								<input type="text" style="border: 0px; min-height: 30px; width: 100%">
+							</div>
+							<button style="width: 30%; height: 30px; padding: 5px;  margin: 5px;" class="btn btn-default btn-success" ng-click="adCard()" ng-disabled="" id=""><span style="line-height: 20px">Add Card</span>
+							</button>										
+						</form>
+						
+					</div>			
+				</div>				
+			</div>
+
+			<!-- LIST -->
+			<div class="col-md-3"> 
+				<div class="well" id="lists" style="padding: 0px; overflow: auto; min-height: 90px; max-height: 400px">
+
+					<!-- LIST NAME -->
+					<div style="margin: 0px; padding: 10px; background: #C1CDCD; height: 35px; line-height: 15px; text-align: center; color: black">
+						<b></b>
+					</div>
+
+					<!-- CARD HOLDER -->
+					<div id="cardHolder" style="overflow: scroll; overflow-x: hidden; min-height: 80px; max-height: 310px">
+						
+						<!-- card -->
+						<div class="well" style="background: white; padding: 5px; margin: 5px; border-radius: 5px; word-wrap: break-word;">
+							<span class="glyphicon glyphicon-remove cross" aria-hidden="true" style="float: right"></span>
+						I am the he man i will kil your son for sex dasdadadasdasdas dasdasdas
+						</div>
+						<!-- card -->
+						<div class="well" style="background: white; padding: 5px; margin: 5px; border-radius: 5px; word-wrap: break-word;">
+							<span class="glyphicon glyphicon-remove cross" aria-hidden="true" style="float: right"></span>
+						I am the he man i will kil your son for sex dasdadadasdasdas dasdasdas
+						</div>
+						<!-- card -->
+						<div class="well" style="background: white; padding: 5px; margin: 5px; border-radius: 5px; word-wrap: break-word;">
+							<span class="glyphicon glyphicon-remove cross" aria-hidden="true" style="float: right"></span>
+						I am the he man i will kil your son for sex dasdadadasdasdas dasdasdas
+						</div>
+						
+						
+						<!-- NEW CARD FORM -->
+						<form style="background-color: #DEDFE0; height: 50px">
+							<div class="well" style="background: white; padding: 0px; margin: 5px;">
+								<input type="text" style="border: 0px; min-height: 30px; width: 100%">
+							</div>
+							<button style="width: 30%; height: 30px; padding: 5px;  margin: 5px;" class="btn btn-default btn-success" ng-click="adCard()" ng-disabled="" id=""><span style="line-height: 20px">Add Card</span>
+							</button>										
+						</form>
+						
+					</div>			
+				</div>				
+			</div>
+
+			<!-- LIST -->
+			<div class="col-md-3"> 
+				<div class="well" id="lists" style="padding: 0px; overflow: auto; min-height: 90px; max-height: 400px">
+
+					<!-- LIST NAME -->
+					<div style="margin: 0px; padding: 10px; background: #C1CDCD; height: 35px; line-height: 15px; text-align: center; color: black">
+						<b></b>
+					</div>
+
+					<!-- CARD HOLDER -->
+					<div id="cardHolder" style="overflow: scroll; overflow-x: hidden; min-height: 80px; max-height: 310px">
+						
+						<!-- card -->
+						<div class="well" style="background: white; padding: 5px; margin: 5px; border-radius: 5px; word-wrap: break-word;">
+							<span class="glyphicon glyphicon-remove cross" aria-hidden="true" style="float: right"></span>
+						I am the he man i will kil your son for sex dasdadadasdasdas dasdasdas
+						</div>
+						<!-- card -->
+						<div class="well" style="background: white; padding: 5px; margin: 5px; border-radius: 5px; word-wrap: break-word;">
+							<span class="glyphicon glyphicon-remove cross" aria-hidden="true" style="float: right"></span>
+						I am the he man i will kil your son for sex dasdadadasdasdas dasdasdas
+						</div>
+						<!-- card -->
+						<div class="well" style="background: white; padding: 5px; margin: 5px; border-radius: 5px; word-wrap: break-word;">
+							<span class="glyphicon glyphicon-remove cross" aria-hidden="true" style="float: right; color: #7AB0D2"></span>
+						I am the he man i will kil your son for sex dasdadadasdasdas dasdasdas
+						</div>
+						
+						
+						<!-- NEW CARD FORM -->
+						<form style="background-color: #DEDFE0; height: 50px">
+							<div class="well" style="background: white; padding: 0px; margin: 5px;">
+								<input type="text" style="border: 0px; min-height: 30px; width: 100%">
+							</div>
+							<button style="width: 30%; height: 30px; padding: 5px;  margin: 5px;" class="btn btn-default btn-success" ng-click="adCard()" ng-disabled="" id=""><span style="line-height: 20px">Add Card</span>
+							</button>										
+						</form>
+						
+					</div>			
+				</div>				
+			</div>
+
+
+			<!-- LIST -->
+			<div class="col-md-3"> 
+				<div class="well" id="lists" style="padding: 0px; overflow: auto; min-height: 90px; max-height: 400px">
+
+					<!-- LIST NAME -->
+					<div style="margin: 0px; padding: 10px; background: #C1CDCD; height: 35px; line-height: 15px; text-align: center; color: black">
+						<b></b>
+					</div>
+
+					<!-- CARD HOLDER -->
+					<div id="cardHolder" style="overflow: scroll; overflow-x: hidden; min-height: 80px; max-height: 310px">
+						
+						<!-- card -->
+						<div class="well" style="background: white; padding: 5px; margin: 5px; border-radius: 5px; word-wrap: break-word;">
+							<span class="glyphicon glyphicon-remove cross" aria-hidden="true" style="float: right"></span>
+						I am the he man i will kil your son for sex dasdadadasdasdas dasdasdas
+						</div>
+
+
+						
+						
+						<!-- NEW CARD FORM -->
+						<form style="background-color: #DEDFE0; height: 50px">
+							<div class="well" style="background: white; padding: 0px; margin: 5px;">
+								<input type="text" style="border: 0px; min-height: 30px; width: 100%">
+							</div>
+							<button style="width: 30%; height: 30px; padding: 5px;  margin: 5px;" class="btn btn-default btn-success" ng-click="adCard()" ng-disabled="" id=""><span style="line-height: 20px">Add Card</span>
+							</button>										
+						</form>
+						
+					</div>			
+				</div>				
+			</div>
+
+			<!-- LIST -->
+			<div class="col-md-3"> 
+				<div class="well" id="lists" style="padding: 0px; overflow: auto; min-height: 90px; max-height: 400px">
+
+					<!-- LIST NAME -->
+					<div style="margin: 0px; padding: 10px; background: #C1CDCD; height: 35px; line-height: 15px; text-align: center; color: black">
+						<b></b>
+					</div>
+
+					<!-- CARD HOLDER -->
+					<div id="cardHolder" style="overflow: scroll; overflow-x: hidden; min-height: 80px; max-height: 310px">
+						
+						<!-- card -->
+						<div class="well" style="background: white; padding: 5px; margin: 5px; border-radius: 5px; word-wrap: break-word;">
+							<span class="glyphicon glyphicon-remove cross" aria-hidden="true" style="float: right"></span>
+						I am the he man i will kil your son for sex dasdadadasdasdas dasdasdas
+						</div>
+						
+						
+						<!-- NEW CARD FORM -->
+						<form style="background-color: #DEDFE0; height: 50px">
+							<div class="well" style="background: white; padding: 0px; margin: 5px;">
+								<input type="text" style="border: 0px; min-height: 30px; width: 100%">
+							</div>
+							<button style="width: 30%; height: 30px; padding: 5px;  margin: 5px;" class="btn btn-default btn-success" ng-click="adCard()" ng-disabled="" id=""><span style="line-height: 20px">Add Card</span>
+							</button>										
+						</form>
+						
+					</div>			
+				</div>				
+			</div>
+
+			<!-- LIST -->
+			<div class="col-md-3"> 
+				<div class="well" id="lists" style="padding: 0px; overflow: auto; min-height: 90px; max-height: 400px">
+
+					<!-- LIST NAME -->
+					<div style="margin: 0px; padding: 10px; background: #C1CDCD; height: 35px; line-height: 15px; text-align: center; color: black">
+						<b></b>
+					</div>
+
+					<!-- CARD HOLDER -->
+					<div id="cardHolder" style="overflow: scroll; overflow-x: hidden; min-height: 80px; max-height: 310px">
+						
+						<!-- card -->
+						<div class="well" style="background: white; padding: 5px; margin: 5px; border-radius: 5px; word-wrap: break-word;">
+							<span class="glyphicon glyphicon-remove cross" aria-hidden="true" style="float: right"></span>
+						I am the he man i will kil your son for sex dasdadadasdasdas dasdasdas
+						</div>
+						
+						
+						<!-- NEW CARD FORM -->
+						<form style="background-color: #DEDFE0; height: 50px">
+							<div class="well" style="background: white; padding: 0px; margin: 5px;">
+								<input type="text" style="border: 0px; min-height: 30px; width: 100%">
+							</div>
+							<button style="width: 30%; height: 30px; padding: 5px;  margin: 5px;" class="btn btn-default btn-success" ng-click="adCard()" ng-disabled="" id=""><span style="line-height: 20px">Add Card</span>
+							</button>										
+						</form>
+						
+					</div>			
+				</div>				
+			</div>
+
+			<!-- ADD LIST -->
+			<div class="col-md-3">
+				<div class="well" id="addList">
+				<span id="add" style="font-size: 15px; line-height: 30px; color: #717275; position: absolute;">Add a List...</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	
+</body>
+</html>
