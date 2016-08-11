@@ -7,7 +7,7 @@ app.controller('boardCtrl',function($scope,$http,$rootScope){
 		$scope.addnewBoard = function(){
 			console.log('calling get for savebOard');
 			$http.post('/saveBoard',{boardName: $scope.newBoard}).then(function(res){
-					console.log(res.data);
+					console.log(res);
 			});
 		};
 	

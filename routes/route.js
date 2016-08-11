@@ -1,15 +1,23 @@
 var path = require('path');
 var express = require('express');
+var mongoose = require('mongoose');
 var router = express.Router();
+var bosyParser = require('body-parser');
 var schemas = require('../schemas/boardSchema.js');
 var boardSchema = schemas.boardSchema;
 var listSchema = schemas.listSchema;
 
-router.use('/',function(req,res){
+var db = "mongodb://pratik:pratik@ds153845.mlab.com:53845/trelloswiggified";
+
+mongoose.createConnection(db);
+
+router.use(bosyParser());
+router.get('/',function(req,res){
 		res.sendFile(path.resolve(__dirname+'/../public/views/boards.html'));
 });
 
 router.post('/saveCard',function(req,res){
+	console.log('saveCard called');
 	boardSchema.find({_id:req.body.boardId}).exec(function(err,board){
 		if(!err)
 		{
@@ -19,6 +27,7 @@ router.post('/saveCard',function(req,res){
 });
 
 router.get('/getBoards',function(req,res){
+	console.log('getBoard called');
 	var boardSend=[];
 	boardSchema.find({}).exec(function(err,boards){
 		for(var i=0;i<boards.length;i++)
@@ -47,6 +56,7 @@ router.post('/saveBoard',function(req,res){
 });
 
 router.get('/getLists',function(req,res){
+	console.log('getLists called');
 	var listSend={};
 	boardSchema.find({_id:req.body.boardId}).exec(function(err,board){
 			listSend=board.lists;
@@ -54,6 +64,7 @@ router.get('/getLists',function(req,res){
 });
 
 router.post('/saveList',function(req,res){
+	console.log('saveList called');
 	var list = new listSchema({
 		name: req.body.listName
 	});
