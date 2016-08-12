@@ -5,17 +5,21 @@ var db = "mongodb://pratik:pratik@ds153845.mlab.com:53845/trelloswiggified";
 
 var connection = mongoose.createConnection(db);
 
-var ObjectId = Schema.ObjectId;
-
 var list = new Schema({
 	name : String,
-	cards : [String]
+	board : mongoose.Schema.Types.ObjectId
 });
 
 var board = new Schema({
-	name : String,
-	lists : [list]
+	name : String
 });
 
-module.exports.boardSchema = mongoose.model('board',board);
-module.exports.listSchema = mongoose.model('list',list);
+var card = new Schema({
+	content : String,
+	list : mongoose.Schema.Types.ObjectId,
+	board : mongoose.Schema.Types.ObjectId
+});
+
+module.exports.boardSchema = connection.model('board',board);
+module.exports.listSchema = connection.model('list',list);
+module.exports.cardSchema = connection.model('card',card);

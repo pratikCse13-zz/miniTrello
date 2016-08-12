@@ -10,10 +10,14 @@
   "author": "pratik",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.2",
     "bower": "^1.7.9",
     "express": "^4.14.0",
-    "mongoose": "^4.5.8",
+    "express-validator": "^2.20.8",
+    "jwt-simple": "^0.5.0",
+    "mongodb": "^2.2.5",
+    "mongoose": "^4.5.3",
     "socket.io": "^1.4.8"
   },
   "engines": {
