@@ -17,4 +17,4 @@ relocate to the directory this repository is cloned in
 
 run node index.js
 
-go to your browser and log to 'localhost:81'
+go to your browser and log to 'localhost:8000'
